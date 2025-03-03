@@ -4,22 +4,29 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-var sprite *Sprite
-
-func init() {
-	sprite = newSprite("rika", "assets/rika.png", 120, 120)
+type Game struct {
+	stage *Stage
 }
 
-type Game struct{}
+func NewGame() *Game {
+	game := Game{
+		stage: newStage(),
+	}
+	game.stage.sprites = append(game.stage.sprites, Rika)
+	game.stage.background = House
+	return &game
+}
 
 func (g *Game) Update() error {
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	sprite.render(screen)
+	stageImage := g.stage.makeImage()
+	op := &ebiten.DrawImageOptions{}
+	screen.DrawImage(stageImage, op)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 320, 240
+	return outsideWidth, outsideHeight
 }

@@ -15,12 +15,22 @@ type Sprite struct {
 	options *ebiten.DrawImageOptions
 }
 
-func newSprite(name string, path string, x, y int) *Sprite {
+func newSpriteFromPath(name string, path string, x, y int) *Sprite {
 	img, _, err := ebitenutil.NewImageFromFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	return &Sprite{
+		name:    name,
+		img:     img,
+		x:       x,
+		y:       y,
+		options: &ebiten.DrawImageOptions{},
+	}
+}
+
+func newSpriteFromImage(name string, img *ebiten.Image, x, y int) *Sprite {
 	return &Sprite{
 		name:    name,
 		img:     img,

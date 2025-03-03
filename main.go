@@ -7,9 +7,9 @@ import (
 )
 
 func main() {
-	ebiten.SetWindowSize(640, 480)
+	ebiten.SetWindowSize(engine.StageWidth, engine.StageHeight)
 	ebiten.SetWindowTitle("Hello, World!")
-	if err := ebiten.RunGame(&engine.Game{}); err != nil {
+	if err := ebiten.RunGame(engine.NewGame()); err != nil {
 		log.Fatal(err)
 	}
 }
