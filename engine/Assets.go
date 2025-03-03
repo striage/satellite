@@ -49,8 +49,8 @@ func newAssetManager() *AssetManager {
 	return assetManager
 }
 
-func (a *AssetManager) getAsset(name string) *Sprite {
-	return a.sprites[name]
+func (am *AssetManager) getAsset(name string) *Sprite {
+	return am.sprites[name]
 }
 
 func isValidExtension(extension string) bool {
