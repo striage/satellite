@@ -5,15 +5,19 @@ import (
 )
 
 type Game struct {
-	stage *Stage
+	stage  *Stage
+	width  int
+	height int
 }
 
 func NewGame() *Game {
 	game := Game{
-		stage: newStage(),
+		stage:  newStage(),
+		width:  StageWidth,
+		height: StageHeight,
 	}
-	game.stage.sprites = append(game.stage.sprites, Rika)
-	game.stage.background = House
+	game.stage.appendSprite(Rika)
+	game.stage.setBackground(House)
 	return &game
 }
 
@@ -22,8 +26,12 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	stageImage := g.stage.makeImage()
-	op := &ebiten.DrawImageOptions{}
+	stageImage, op := g.stage.makeImage()
+	windowWidth, windowHeight := ebiten.WindowSize()
+	scaleX := float64(windowWidth) / float64(g.width)
+	scaleY := float64(windowHeight) / float64(g.height)
+	scale := min(scaleX, scaleY)
+	op.GeoM.Scale(scale, scale)
 	screen.DrawImage(stageImage, op)
 }
 
