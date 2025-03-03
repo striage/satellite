@@ -5,19 +5,21 @@ import (
 )
 
 type Game struct {
-	stage  *Stage
-	width  int
-	height int
+	stage        *Stage
+	assetManager *AssetManager
+	width        int
+	height       int
 }
 
 func NewGame() *Game {
 	game := Game{
-		stage:  newStage(),
-		width:  StageWidth,
-		height: StageHeight,
+		assetManager: newAssetManager(),
+		stage:        newStage(),
+		width:        StageWidth,
+		height:       StageHeight,
 	}
-	game.stage.appendSprite(Rika)
-	game.stage.setBackground(House)
+	game.stage.appendSprite(game.assetManager.getAsset("rika"))
+	game.stage.setBackground(game.assetManager.getAsset("house"))
 	return &game
 }
 
