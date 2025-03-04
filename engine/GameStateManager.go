@@ -23,8 +23,6 @@ func (gsm *GameStateManager) Update() error {
 	return nil
 }
 
-func (gsm *GameStateManager) Draw(screen *ebiten.Image) {
-	if gsm.currentState != nil {
-		gsm.currentState.Draw(screen)
-	}
+func (gsm *GameStateManager) Draw() (*ebiten.Image, *ebiten.DrawImageOptions) {
+	return gsm.currentState.Draw()
 }

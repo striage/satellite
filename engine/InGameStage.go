@@ -12,7 +12,7 @@ type InGameStage struct {
 func NewInGameStage(gameStateManager *GameStateManager) *InGameStage {
 	return &InGameStage{
 		gameStateManager: gameStateManager,
-		stage:            newStage(), // Create the in-game scene
+		stage:            newStage(),
 	}
 }
 
@@ -20,7 +20,6 @@ func (igs *InGameStage) Update() error {
 	return nil
 }
 
-func (igs *InGameStage) Draw(screen *ebiten.Image) {
-	stageImage, op := igs.stage.makeImage()
-	screen.DrawImage(stageImage, op)
+func (igs *InGameStage) Draw() (*ebiten.Image, *ebiten.DrawImageOptions) {
+	return igs.stage.makeImage()
 }

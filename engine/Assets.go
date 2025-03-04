@@ -18,7 +18,7 @@ type AssetManager struct {
 	sprites map[string]*Sprite
 }
 
-func newAssetManager() *AssetManager {
+func NewAssetManager() *AssetManager {
 	assetManager := &AssetManager{
 		sprites: make(map[string]*Sprite),
 	}
@@ -43,7 +43,7 @@ func newAssetManager() *AssetManager {
 		sprite := mustLoadSprite("assets/" + name)
 		assetManager.sprites[baseName] = sprite
 
-		fmt.Printf("[AssetManager::newAssetManager] Loaded sprite: %s from %s\n", baseName, name)
+		fmt.Printf("[AssetManager::NewAssetManager] Loaded sprite: %s from %s\n", baseName, name)
 	}
 
 	return assetManager

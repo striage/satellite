@@ -22,7 +22,6 @@ func (m *MainMenuStage) Update() error {
 	return nil
 }
 
-func (m *MainMenuStage) Draw(screen *ebiten.Image) {
-	img, op := m.stage.makeImage()
-	screen.DrawImage(img, op)
+func (m *MainMenuStage) Draw() (*ebiten.Image, *ebiten.DrawImageOptions) {
+	return m.stage.makeImage()
 }
