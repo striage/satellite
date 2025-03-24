@@ -16,8 +16,9 @@ func NewGame() *Game {
 	initialStage := NewMainMenuStage(gameStateManager)
 	assetManager := NewAssetManager()
 
-	initialStage.stage.appendSprite(assetManager.getAsset("rika"))
-	initialStage.stage.setBackground(assetManager.getAsset("house"))
+	initialStage.AppendSprite(assetManager.getAsset("rika"))
+	initialStage.TranslateSprite("rika", 900, 0)
+	initialStage.SetBackground(assetManager.getAsset("house"))
 
 	gameStateManager.SetState(initialStage)
 
@@ -30,7 +31,7 @@ func NewGame() *Game {
 }
 
 func (g *Game) Update() error {
-	return nil
+	return g.gameStateManager.Update()
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {

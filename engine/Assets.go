@@ -40,7 +40,7 @@ func NewAssetManager() *AssetManager {
 		}
 
 		baseName := strings.TrimSuffix(name, extension)
-		sprite := mustLoadSprite("assets/" + name)
+		sprite := mustLoadSprite("assets/"+name, baseName)
 		assetManager.sprites[baseName] = sprite
 
 		fmt.Printf("[AssetManager::NewAssetManager] Loaded sprite: %s from %s\n", baseName, name)
@@ -62,9 +62,9 @@ func isValidExtension(extension string) bool {
 	return false
 }
 
-func mustLoadSprite(name string) *Sprite {
+func mustLoadSprite(name, baseName string) *Sprite {
 	img := mustLoadImage(name)
-	return newSpriteFromImage(name, img, 0, 0)
+	return newSpriteFromImage(baseName, img, 0, 0)
 }
 
 func mustLoadImage(name string) *ebiten.Image {

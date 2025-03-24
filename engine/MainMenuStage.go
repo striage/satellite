@@ -1,6 +1,9 @@
 package engine
 
-import "github.com/hajimehoshi/ebiten/v2"
+import (
+	"fmt"
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
 type MainMenuStage struct {
 	gameStateManager *GameStateManager
@@ -10,18 +13,30 @@ type MainMenuStage struct {
 func NewMainMenuStage(gsm *GameStateManager) *MainMenuStage {
 	return &MainMenuStage{
 		gameStateManager: gsm,
-		stage:            newStage(),
+		stage:            NewStage(),
 	}
 }
 
 func (m *MainMenuStage) Update() error {
-	// Example: Simulating a button press to start the game
-	if /* some condition like a button click */ false {
+	if ebiten.IsKeyPressed(ebiten.KeyEnter) {
+		fmt.Println("enter")
 		m.gameStateManager.SetState(NewInGameStage(m.gameStateManager))
 	}
 	return nil
 }
 
+func (m *MainMenuStage) SetBackground(sprite *Sprite) {
+	m.stage.SetBackground(sprite)
+}
+
+func (m *MainMenuStage) AppendSprite(sprite *Sprite) {
+	m.stage.AppendSprite(sprite)
+}
+
+func (m *MainMenuStage) TranslateSprite(name string, x, y int) {
+	m.stage.TranslateSprite(name, x, y)
+}
+
 func (m *MainMenuStage) Draw() (*ebiten.Image, *ebiten.DrawImageOptions) {
-	return m.stage.makeImage()
+	return m.stage.MakeImage()
 }

@@ -4,9 +4,11 @@ import "github.com/hajimehoshi/ebiten/v2"
 
 type GameStateManager struct {
 	currentState GameState
+	gameStates   []*GameState
 }
 
 func NewGameStateManager(initialState GameState) *GameStateManager {
+	gameStates := make(map[string]*GameState)
 	return &GameStateManager{
 		currentState: initialState,
 	}

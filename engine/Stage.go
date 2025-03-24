@@ -1,6 +1,9 @@
 package engine
 
-import "github.com/hajimehoshi/ebiten/v2"
+import (
+	"fmt"
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
 type Stage struct {
 	background *Sprite
@@ -8,7 +11,7 @@ type Stage struct {
 	op         *ebiten.DrawImageOptions
 }
 
-func newStage() *Stage {
+func NewStage() *Stage {
 	return &Stage{
 		background: nil,
 		sprites:    make([]*Sprite, 0),
@@ -16,15 +19,32 @@ func newStage() *Stage {
 	}
 }
 
-func (s *Stage) appendSprite(sprite *Sprite) {
+func (s *Stage) AppendSprite(sprite *Sprite) {
 	s.sprites = append(s.sprites, sprite)
 }
 
-func (s *Stage) setBackground(background *Sprite) {
+func (s *Stage) TranslateSprite(name string, x, y int) {
+	if sprite, found := s.GetSprite(name); found {
+		sprite.options.GeoM.Translate(float64(x), float64(y))
+	} else {
+		fmt.Printf("[Stage::TranslateSprite] Failed to translate sprite %s as it does not exist\n", name)
+	}
+}
+
+func (s *Stage) GetSprite(name string) (*Sprite, bool) {
+	for _, sprite := range s.sprites {
+		if sprite.name == name {
+			return sprite, true
+		}
+	}
+	return nil, false
+}
+
+func (s *Stage) SetBackground(background *Sprite) {
 	s.background = background
 }
 
-func (s *Stage) makeImage() (*ebiten.Image, *ebiten.DrawImageOptions) {
+func (s *Stage) MakeImage() (*ebiten.Image, *ebiten.DrawImageOptions) {
 	image := ebiten.NewImage(StageWidth, StageHeight)
 	if s.background != nil {
 		image.DrawImage(s.background.img, s.background.options)
