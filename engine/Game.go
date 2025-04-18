@@ -17,7 +17,12 @@ func NewGame() *Game {
 	assetManager := NewAssetManager()
 
 	initialStage.AppendSprite(assetManager.getAsset("rika"))
+	initialStage.AppendSprite(assetManager.getAsset("dir/button"))
+	initialStage.AppendSprite(assetManager.getAsset("dir/newdir/button"))
+
 	initialStage.TranslateSprite("rika", 900, 0)
+	initialStage.TranslateSprite("dir/button", 200, 0)
+	initialStage.TranslateSprite("dir/newdir/button", 400, 0)
 	initialStage.SetBackground(assetManager.getAsset("house"))
 
 	gameStateManager.SetState(initialStage)
@@ -36,14 +41,9 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	stageImage, op := g.gameStateManager.Draw()
-	windowWidth, windowHeight := ebiten.WindowSize()
-	scaleX := float64(windowWidth) / float64(g.width)
-	scaleY := float64(windowHeight) / float64(g.height)
-	scale := min(scaleX, scaleY)
-	op.GeoM.Scale(scale, scale)
 	screen.DrawImage(stageImage, op)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return outsideWidth, outsideHeight
+	return StageWidth, StageHeight
 }

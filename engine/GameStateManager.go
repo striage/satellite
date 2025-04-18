@@ -8,7 +8,7 @@ type GameStateManager struct {
 }
 
 func NewGameStateManager(initialState GameState) *GameStateManager {
-	gameStates := make(map[string]*GameState)
+	//	gameStates := make(map[string]*GameState)
 	return &GameStateManager{
 		currentState: initialState,
 	}

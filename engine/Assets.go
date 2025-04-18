@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"image"
+	"io/fs"
 	"path/filepath"
 	"strings"
 )
@@ -18,18 +19,16 @@ type AssetManager struct {
 	sprites map[string]*Sprite
 }
 
-func NewAssetManager() *AssetManager {
-	assetManager := &AssetManager{
-		sprites: make(map[string]*Sprite),
-	}
-
-	files, err := assets.ReadDir("assets")
-	if err != nil {
-		panic(err)
-	}
-
+func loadFiles(files []fs.DirEntry, assetManager *AssetManager, prefix string) {
 	for _, file := range files {
 		if file.IsDir() {
+			dirName := prefix + file.Name()
+			files, err := assets.ReadDir(dirName)
+			if err != nil {
+				panic(err)
+			}
+
+			loadFiles(files, assetManager, dirName+"/")
 			continue
 		}
 
@@ -39,12 +38,25 @@ func NewAssetManager() *AssetManager {
 			continue
 		}
 
-		baseName := strings.TrimSuffix(name, extension)
-		sprite := mustLoadSprite("assets/"+name, baseName)
+		baseName := strings.TrimPrefix(prefix, "assets/") + strings.TrimSuffix(name, extension)
+		sprite := mustLoadSprite(prefix+name, baseName)
+
 		assetManager.sprites[baseName] = sprite
 
 		fmt.Printf("[AssetManager::NewAssetManager] Loaded sprite: %s from %s\n", baseName, name)
 	}
+}
+
+func NewAssetManager() *AssetManager {
+	assetManager := &AssetManager{
+		sprites: make(map[string]*Sprite),
+	}
+
+	files, err := assets.ReadDir("assets")
+	if err != nil {
+		panic(err)
+	}
+	loadFiles(files, assetManager, "assets/")
 
 	return assetManager
 }
