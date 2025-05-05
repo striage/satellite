@@ -2,18 +2,20 @@ package engine
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
+	"satellite/engine/consts"
+	"satellite/engine/game_state"
 )
 
 type Game struct {
-	gameStateManager *GameStateManager
+	gameStateManager *game_state.GameStateManager
 	assetManager     *AssetManager
 	width            int
 	height           int
 }
 
 func NewGame() *Game {
-	gameStateManager := NewGameStateManager(nil)
-	initialStage := NewMainMenuStage(gameStateManager)
+	gameStateManager := game_state.NewGameStateManager(nil)
+	initialStage := game_state.NewMainMenuStage(gameStateManager)
 	assetManager := NewAssetManager()
 
 	initialStage.AppendSprite(assetManager.getAsset("rika"))
@@ -29,8 +31,8 @@ func NewGame() *Game {
 
 	game := Game{
 		gameStateManager: gameStateManager,
-		width:            StageWidth,
-		height:           StageHeight,
+		width:            consts.StageWidth,
+		height:           consts.StageHeight,
 	}
 	return &game
 }
@@ -45,5 +47,5 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return StageWidth, StageHeight
+	return consts.StageWidth, consts.StageHeight
 }
